@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digital Independence Quiz — Know Your Constitution 🇮🇳</title>
+  <meta name="description" content="Learn the Constitution of India through a level-based quiz. Celebrate Independence Day with knowledge!">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Ccircle cx='64' cy='64' r='60' fill='white'/%3E%3Ccircle cx='64' cy='64' r='40' fill='none' stroke='%230076ff' stroke-width='6'/%3E%3Cline x1='64' y1='24' x2='64' y2='104' stroke='%230076ff' stroke-width='4'/%3E%3Cline x1='24' y1='64' x2='104' y2='64' stroke='%230076ff' stroke-width='4'/%3E%3C/svg%3E" />
+  <style>
+    :root{
+      --saffron:#ff6d00; --green:#138808; --chakra:#0a5bd8;
+      --ink:#0f172a; --muted:#64748b; --bg:#0b1020;
+      --card:#0f1530; --cardEdge:#1b2244; --ring:rgba(10,91,216,.25);
+      --ok:#0ea35a; --bad:#ef4444; --warn:#eab308;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      color:#e6e9f5;
+      background:
+        radial-gradient(1200px 400px at -10% -10%, rgba(255,109,0,.18), transparent 60%),
+        radial-gradient(1200px 400px at 110% 110%, rgba(19,136,8,.18), transparent 60%),
+        linear-gradient(180deg,#0a0f24, #060915 60%);
+    }
+    .topbar{ position:sticky; top:0; z-index:20; background: linear-gradient(90deg, var(--saffron), white 45%, white 55%, var(--green)); border-bottom: 2px solid rgba(255,255,255,.15); }
+    .topbar-inner{ display:flex; align-items:center; gap:16px; padding:14px 18px; }
+    .flagdot{ width:34px; height:34px; border-radius:50%; background: radial-gradient(circle at center, white 48%, var(--chakra) 50%, var(--chakra) 51%, transparent 53%), conic-gradient(from 0deg, var(--chakra) 0 6deg, transparent 6deg 12deg); box-shadow: 0 0 0 2px rgba(0,0,0,.2); }
+    .title{ display:flex; flex-direction:column; gap:2px; }
+    .title h1{ margin:0; font-size: clamp(18px, 2.4vw, 22px); color:#0a0f24; letter-spacing:.2px; }
+    .title small{ color:#0a0f24; opacity:.75; font-weight:600; }
+    .wrap{ display:grid; grid-template-columns: 300px 1fr; gap:18px; max-width:1200px; margin:16px auto; padding:0 16px 32px; }
+    @media (max-width: 930px){ .wrap{ grid-template-columns: 1fr; } }
+    .sidebar{ background: var(--card); border:1px solid var(--cardEdge); border-radius:16px; padding:16px; position:sticky; top:78px; height: max-content; box-shadow: 0 12px 30px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.03); }
+    .levels{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+    .lvl{ border:1px solid var(--cardEdge); background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)); border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:6px; cursor:pointer; transition: transform .1s ease, border-color .2s ease, box-shadow .2s ease; }
+    .lvl:hover{ transform: translateY(-1px); border-color:#2a346b; box-shadow: 0 6px 18px rgba(10,91,216,.15); }
+    .lvl.locked{ opacity:.6; cursor:not-allowed; }
+    .lvl header{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .badge{ font-size:12px; font-weight:700; padding:4px 8px; border-radius:999px; background: rgba(10,91,216,.12); color:#b9d5ff; border:1px solid rgba(10,91,216,.25); }
+    .kpi{ font-size:12px; color:#aab1c9; }
+    .lock{ font-size:12px; color:#aab1c9; }
+    .bar{ width:100%; height:7px; background:#1b2244; border-radius:999px; overflow:hidden; }
+    .bar > i{ display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--chakra),#7fb3ff); }
+    .side-actions{ margin-top:14px; display:flex; flex-direction:column; gap:8px; }
+    .btn{ appearance:none; border:none; border-radius:12px; padding:10px 12px; font-weight:700; cursor:pointer; background:#16204a; color:#cfe3ff; border:1px solid #2a346b; transition: transform .06s ease, box-shadow .2s ease, background .2s ease; }
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px rgba(10,91,216,.18); }
+    .btn.secondary{ background:#172235; border-color:#2a3a52; color:#dfe7f5; }
+    .btn.danger{ background: #2a1320; border-color:#5a1f35; color:#ffd0d6; }
+    .main{ display:flex; flex-direction:column; gap:16px; }
+    .banner{ border:1px solid var(--cardEdge); border-radius:16px; overflow:hidden; background: radial-gradient(700px 200px at -10% 0%, rgba(255,109,0,.15), transparent 60%), radial-gradient(700px 200px at 110% 120%, rgba(19,136,8,.18), transparent 60%), linear-gradient(180deg, #0f1738, #0c1230); padding:18px; }
+    .banner h2{ margin:0 0 6px 0; font-size: clamp(18px, 2.6vw, 22px); color:#eaf1ff; }
+    .banner p{ margin:0; color:#b7c3e2; font-size:14px; }
+    .pill{ display:inline-flex; align-items:center; gap:8px; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); padding:6px 10px; border-radius:999px; font-size:12px; margin-top:10px; }
+    .card{ background: var(--card); border:1px solid var(--cardEdge); border-radius:16px; padding:16px; box-shadow: 0 12px 30px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.03); }
+    .qhead{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px; }
+    .qtitle{ font-size: clamp(16px, 2.3vw, 18px); margin:0; color:#ecf1ff; }
+    .qmeta{ display:flex; gap:10px; color:#aab1c9; font-size:12px; }
+    .qarea{ margin:10px 0 14px 0; line-height:1.5; color:#dbe3ff; }
+    .options{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+    @media (max-width:700px){ .options{ grid-template-columns:1fr; } }
+    .opt{ border:1px solid #2a346b; border-radius:12px; padding:12px; background: #0e1533; cursor:pointer; color:#dbe3ff; transition: border-color .2s ease, transform .06s ease, box-shadow .2s ease; }
+    .opt:hover{ border-color:#3a56a5; transform: translateY(-1px); box-shadow: 0 10px 22px rgba(10,91,216,.14); }
+    .opt.correct{ border-color: rgba(14,163,90,.8); background: rgba(14,163,90,.1); }
+    .opt.wrong{ border-color: rgba(239,68,68,.8); background: rgba(239,68,68,.08); }
+    .explain{ margin-top:12px; padding:12px; border-radius:12px; background: rgba(10,91,216,.08); border:1px solid rgba(10,91,216,.25); color:#d7e6ff; display:none; }
+    .explain i{ color:#b2cdfc; font-style:normal; font-weight:700; }
+    .nav{ margin-top:12px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .nav .btn{ padding:10px 14px; }
+    .ghost{ opacity:.55; pointer-events:none; }
+    .toast{ position: fixed; right:16px; bottom:16px; z-index:50; background:#0c142e; color:#e9efff; border:1px solid #2a346b; border-radius:12px; padding:10px 12px; box-shadow: 0 18px 40px rgba(0,0,0,.35); display:none; }
+    .footer-note{ margin-top:6px; color:#9fb2d8; font-size:12px; opacity:.8; }
+  </style>
+</head>
+<body>
+  <header class="topbar" role="banner" aria-label="Top information bar">
+    <div class="topbar-inner">
+      <div class="flagdot" aria-hidden="true"></div>
+      <div class="title">
+        <h1>Digital Independence Quiz — Know Your Constitution</h1>
+        <small>Celebrate 🇮🇳 Independence Day by mastering your rights & duties</small>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" role="main">
+    <aside class="sidebar" aria-label="Level navigation">
+      <h3 style="margin:4px 0 10px 2px; color:#eaf1ff;">Levels</h3>
+      <div class="levels" id="levels"></div>
+      <div class="side-actions">
+        <button class="btn" id="exportBtn" title="Download your progress as JSON">Export Progress</button>
+        <button class="btn secondary" id="importBtn" title="Load a previously exported progress JSON">Import Progress</button>
+        <button class="btn danger" id="resetBtn" title="Clear progress and restart">Reset Progress</button>
+        <small class="footer-note">Tip: finish all questions in a level to unlock the next one. Your progress is auto-saved.</small>
+      </div>
+    </aside>
+
+    <section class="main">
+      <div class="banner" role="region" aria-label="Overview">
+        <h2>Learn by Doing — Level Up Your Constitutional Literacy</h2>
+        <p>Answer all questions in a level to unlock the next. Explanations appear after you pick an answer.</p>
+        <div class="pill">
+          <span>🇮🇳 Theme</span> • <span>Level-Gated</span> • <span>Auto-Save</span> • <span>No logins</span>
+        </div>
+      </div>
+
+      <div class="card" id="card" role="region" aria-live="polite">
+        <div class="qhead">
+          <h3 class="qtitle" id="qTitle">Loading…</h3>
+          <div class="qmeta">
+            <span id="levelMeta">Level 1</span>
+            <span>•</span>
+            <span id="progressMeta">0 / 20</span>
+          </div>
+        </div>
+        <div class="bar" title="Level progress"><i id="progressBar"></i></div>
+        <div class="qarea" id="qText">Please wait while we load your questions.</div>
+        <div class="options" id="options"></div>
+        <div class="explain" id="explain"></div>
+        <div class="nav">
+          <button class="btn" id="prevBtn">← Previous</button>
+          <button class="btn" id="nextBtn">Next →</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="questions.js"></script>
+
+  <script>
+  (function ensureQuestions(){
+    if (typeof window.QUESTIONS === "undefined" || !Array.isArray(window.QUESTIONS) || window.QUESTIONS.length === 0){
+      console.warn("`questions.js` not found or is empty. Using a small fallback sample.");
+      window.QUESTIONS = [
+        {numb:1, question:"This is a sample question. Which Article guarantees equality before law?", answer:"C) Article 14", options:["A) Article 12","B) Article 13","C) Article 14","D) Article 15"], explanation:"Article 14 ensures equality before law and equal protection of laws."},
+        {numb:2, question:"Sample: Right to life is under which article?", answer:"B) Article 21", options:["A) Article 19","B) Article 21","C) Article 25","D) Article 32"], explanation:"Article 21 protects life and personal liberty."}
+      ];
+    }
+  })();
+  
+  const QUESTIONS_PER_LEVEL = 20;
+  const TOTAL_LEVELS = 11;
+  const STORAGE_KEY = "di_quiz_progress_v1";
+
+  function sliceIntoLevels(all){
+    const out = [];
+    for(let i=0; i < TOTAL_LEVELS; i++){
+      const start = i * QUESTIONS_PER_LEVEL;
+      // For levels 1-10 (indices 0-9), take exactly 20 questions.
+      if (i < TOTAL_LEVELS - 1) {
+        const end = start + QUESTIONS_PER_LEVEL;
+        out.push(all.slice(start, end));
+      } else { // For the last level (index 10), take all remaining questions.
+        out.push(all.slice(start));
+      }
+    }
+    return out;
+  }
+
+  const ALL = Array.isArray(window.QUESTIONS) ? window.QUESTIONS : [];
+  const LEVELS = sliceIntoLevels(ALL);
+  if (ALL.length > 0 && ALL.length < (TOTAL_LEVELS - 1) * QUESTIONS_PER_LEVEL) {
+    console.warn(`Warning: Loaded ${ALL.length} questions, but the configuration expects more. Some levels may be empty.`);
+  }
+  while (LEVELS.length < TOTAL_LEVELS) LEVELS.push([]);
+
+  const $levels = document.getElementById("levels");
+  const $qTitle = document.getElementById("qTitle");
+  const $qText = document.getElementById("qText");
+  const $options = document.getElementById("options");
+  const $explain = document.getElementById("explain");
+  const $progressBar = document.getElementById("progressBar");
+  const $progressMeta = document.getElementById("progressMeta");
+  const $levelMeta = document.getElementById("levelMeta");
+  const $toast = document.getElementById("toast");
+  const $prev = document.getElementById("prevBtn");
+  const $next = document.getElementById("nextBtn");
+  const $export = document.getElementById("exportBtn");
+  const $import = document.getElementById("importBtn");
+  const $reset = document.getElementById("resetBtn");
+
+  let state = loadProgress() || makeFreshState();
+
+  function makeFreshState(){
+    const levels = [];
+    for (let i=0;i<TOTAL_LEVELS;i++){
+      levels.push({ unlocked: i===0, currentIndex: 0, answers: {}, completed: false });
+    }
+    return { currentLevel: 0, levels };
+  }
+
+  function loadProgress(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!parsed || !Array.isArray(parsed.levels) || typeof parsed.currentLevel !== "number") return null;
+      return parsed;
+    }catch(e){ return null; }
+  }
+
+  function saveProgress(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function showToast(msg, ms=2000){
+    $toast.textContent = msg;
+    $toast.style.display = "block";
+    setTimeout(()=>{ $toast.style.display="none"; }, ms);
+  }
+
+  function answeredCountFor(levelIdx){
+    return Object.keys(state.levels[levelIdx].answers).length;
+  }
+  function correctCountFor(levelIdx){
+    let n=0;
+    Object.values(state.levels[levelIdx].answers).forEach(v=>{ if (v.correct) n++; });
+    return n;
+  }
+
+  function renderLevels(){
+    $levels.innerHTML = "";
+    for(let i=0;i<TOTAL_LEVELS;i++){
+      const answered = answeredCountFor(i);
+      const total = LEVELS[i].length;
+      const pct = total ? Math.min(100, Math.round((answered/total)*100)) : 0;
+      const unlocked = state.levels[i].unlocked;
+      const d = document.createElement("button");
+      d.className = "lvl" + (unlocked ? "" : " locked");
+      d.type = "button";
+      d.setAttribute("aria-label", unlocked ? `Open Level ${i+1}` : `Level ${i+1} locked`);
+      d.innerHTML = `
+        <header>
+          <span class="badge">Level ${i+1}</span>
+          <span class="kpi">${correctCountFor(i)} ✓</span>
+        </header>
+        <div class="bar" aria-hidden="true"><i style="width:${pct}%"></i></div>
+        <div class="lock">${unlocked ? `Unlocked (${total} Qs)` : "Locked 🔒"}</div>
+      `;
+      if (unlocked) d.addEventListener("click", ()=> openLevel(i));
+      $levels.appendChild(d);
+    }
+  }
+
+  function openLevel(idx){
+    state.currentLevel = idx;
+    ensureWithinBounds();
+    saveProgress();
+    renderLevels();
+    renderQuestion();
+  }
+
+  function ensureWithinBounds(){
+    const L = state.levels[state.currentLevel];
+    const total = LEVELS[state.currentLevel].length || 0;
+    if (L.currentIndex >= total) L.currentIndex = Math.max(0,total-1);
+  }
+
+  function renderQuestion(){
+    const lvl = state.currentLevel;
+    $levelMeta.textContent = `Level ${lvl+1}`;
+    const items = LEVELS[lvl];
+    if (!items || items.length === 0){
+      $qTitle.textContent = "No Questions For This Level";
+      $qText.textContent = "Please ensure your 'questions.js' file is loaded and contains questions for this level.";
+      $options.innerHTML = "";
+      $explain.style.display = "none";
+      $progressMeta.textContent = "0 / 0";
+      $progressBar.style.width = "0%";
+      toggleNavGhost(true);
+      return;
+    }
+    const idx = state.levels[lvl].currentIndex;
+    const q = items[idx];
+    $qTitle.textContent = `Q${q.numb}. ${q.question || "Untitled question"}`;
+    $qText.textContent = "";
+    const answered = answeredCountFor(lvl);
+    const total = items.length;
+    $progressMeta.textContent = `${answered} / ${total}`;
+    $progressBar.style.width = `${Math.round((answered/total)*100)}%`;
+    $options.innerHTML = "";
+    const given = state.levels[lvl].answers[idx];
+    q.options.forEach((opt)=>{
+      const b = document.createElement("button");
+      b.type="button"; b.className="opt";
+      b.textContent = opt;
+      if (given){
+        if (opt === given.choice) b.classList.add(given.correct ? "correct":"wrong");
+        b.disabled = true;
+      }
+      b.addEventListener("click", ()=> onOptionClick(opt, q.answer, q.explanation, b));
+      $options.appendChild(b);
+    });
+    $explain.style.display = given ? "block" : "none";
+    $explain.innerHTML = given ? `<i>Explanation:</i> ${q.explanation || "—"}` : "";
+    toggleNavGhost(false);
+    if (idx === 0) $prev.classList.add("ghost"); else $prev.classList.remove("ghost");
+    if (idx === total-1) $next.textContent = "Finish Level"; else $next.textContent = "Next →";
+  }
+
+  function onOptionClick(choice, answer, explanation, btn){
+    const lvl = state.currentLevel;
+    const idx = state.levels[lvl].currentIndex;
+    if (state.levels[lvl].answers[idx]) return;
+    const correct = (choice === answer);
+    state.levels[lvl].answers[idx] = {choice, correct};
+    saveProgress();
+    document.querySelectorAll(".opt").forEach(o => o.disabled = true);
+    btn.classList.add(correct ? "correct" : "wrong");
+    $explain.style.display = "block";
+    $explain.innerHTML = `<i>Explanation:</i> ${explanation || "—"}`;
+    const total = LEVELS[lvl].length;
+    const answered = answeredCountFor(lvl);
+    $progressMeta.textContent = `${answered} / ${total}`;
+    $progressBar.style.width = `${Math.round((answered/total)*100)}%`;
+    maybeCompleteLevel();
+    renderLevels();
+  }
+
+  function maybeCompleteLevel(){
+    const lvl = state.currentLevel;
+    const total = LEVELS[lvl].length || 0;
+    if (total === 0 || state.levels[lvl].completed) return;
+    if (answeredCountFor(lvl) >= total){
+      state.levels[lvl].completed = true;
+      if (lvl+1 < TOTAL_LEVELS && LEVELS[lvl+1].length > 0){
+        state.levels[lvl+1].unlocked = true;
+        showToast(`Level ${lvl+1} complete! Level ${lvl+2} unlocked 🎉`);
+      }else{
+        showToast(`You completed all levels! 🇮🇳`);
+      }
+      saveProgress();
+    }
+  }
+
+  function toggleNavGhost(disabled){
+    [$prev,$next].forEach(b=>{
+      if (disabled) b.classList.add("ghost");
+      else b.classList.remove("ghost");
+    });
+  }
+
+  $prev.addEventListener("click", ()=>{
+    const L = state.levels[state.currentLevel];
+    if (L.currentIndex > 0){
+      L.currentIndex--;
+      saveProgress();
+      renderQuestion();
+    }
+  });
+  $next.addEventListener("click", ()=>{
+    const L = state.levels[state.currentLevel];
+    const total = LEVELS[state.currentLevel].length || 0;
+    if (L.currentIndex < total-1){
+      L.currentIndex++;
+      saveProgress();
+      renderQuestion();
+    } else {
+      maybeCompleteLevel();
+      const nextIdx = state.currentLevel + 1;
+      if (nextIdx < TOTAL_LEVELS && state.levels[nextIdx].unlocked){
+        openLevel(nextIdx);
+      } else {
+        showToast("You reached the end of this level.");
+      }
+    }
+  });
+
+  $export.addEventListener("click", ()=>{
+    const blob = new Blob([JSON.stringify(state,null,2)], {type:"application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "quiz-progress.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    showToast("Progress exported.");
+  });
+
+  $import.addEventListener("click", ()=>{
+    const inp = document.createElement("input");
+    inp.type = "file"; inp.accept = "application/json";
+    inp.addEventListener("change", ()=>{
+      const f = inp.files[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = ()=>{
+        try{
+          const obj = JSON.parse(reader.result);
+          if (!obj || !Array.isArray(obj.levels)) throw "Invalid file";
+          state = obj;
+          saveProgress();
+          renderLevels();
+          renderQuestion();
+          showToast("Progress imported.");
+        }catch(e){ showToast("Invalid JSON file."); }
+      };
+      reader.readAsText(f);
+    });
+    inp.click();
+  });
+
+  $reset.addEventListener("click", ()=>{
+    if (confirm("Reset all progress? This cannot be undone.")){
+      state = makeFreshState();
+      saveProgress();
+      renderLevels();
+      renderQuestion();
+      showToast("Progress reset.");
+    }
+  });
+
+  renderLevels();
+  renderQuestion();
+  </script>
+</body>
+</html>
