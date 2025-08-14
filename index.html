@@ -235,7 +235,7 @@
       d.innerHTML = `
         <header>
           <span class="badge">Level ${i+1}</span>
-          <span class="kpi">${correctCountFor(i)} ✓</span>
+          <span class="kpi">${answered > 0 ? `${correctCountFor(i)} ✓` : ''}</span>
         </header>
         <div class="bar" aria-hidden="true"><i style="width:${pct}%"></i></div>
         <div class="lock">${unlocked ? `Unlocked (${total} Qs)` : "Locked 🔒"}</div>
